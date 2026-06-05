@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vérificateur de Symptômes – Biomedica Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #f0f7ff; --surface: rgba(255,255,255,0.82); --text: #0a1628; --muted: #4a6280;
+  --primary: #0055d4; --primary-soft: rgba(0,85,212,0.1); --accent: #00c76a;
+  --accent-soft: rgba(0,199,106,0.12); --shadow: 0 24px 60px rgba(0,30,80,0.1); --radius: 24px;
+}
+[data-theme="dark"] { --bg: #060e1c; --surface: rgba(12,22,40,0.8); --text: #e8f2ff; --muted: #7a9cc0; --shadow: 0 24px 60px rgba(0,0,0,0.5); }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); background-image: radial-gradient(circle at 20% 20%, rgba(0,85,212,0.12) 0%, transparent 35%), radial-gradient(circle at 80% 80%, rgba(0,199,106,0.1) 0%, transparent 35%); min-height: 100vh; }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 20px 48px; backdrop-filter: blur(20px); background: rgba(240,247,255,0.9); box-shadow: 0 1px 0 rgba(0,0,0,0.06); }
+[data-theme="dark"] .topbar { background: rgba(6,14,28,0.92); }
+.brand { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: 700; }
+.header-actions { display: flex; gap: 12px; align-items: center; }
+.theme-toggle { padding: 8px 18px; border-radius: 999px; border: none; background: var(--surface); color: var(--text); font-weight: 600; cursor: pointer; font-size: 0.85rem; }
+.back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; border-radius: 999px; border: none; background: var(--primary-soft); color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.85rem; text-decoration: none; }
+.menu-toggle { width: 40px; height: 40px; border: none; display: none; justify-content: center; align-items: center; background: var(--surface); border-radius: 12px; cursor: pointer; flex-direction: column; gap: 5px; }
+.menu-toggle span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 999px; }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 60px 48px 80px; }
+.eyebrow { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary); background: var(--primary-soft); padding: 6px 14px; border-radius: 999px; margin-bottom: 20px; }
+.page-title { font-family: 'Sora', sans-serif; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.1; margin: 0 0 16px; background: linear-gradient(135deg, #0033a0, #0055d4, #00c76a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-sub { color: var(--muted); font-size: 1.05rem; line-height: 1.8; margin: 0 0 44px; }
+.tool-panel { background: var(--surface); backdrop-filter: blur(16px); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,0.8); display: grid; gap: 20px; }
+.tool-panel label { display: grid; gap: 8px; font-weight: 600; font-size: 0.95rem; }
+.tool-panel input[type="text"] { border: 1px solid rgba(0,0,0,0.1); border-radius: 14px; padding: 14px 18px; background: rgba(255,255,255,0.9); color: var(--text); font-size: 1rem; font-family: inherit; transition: border-color 0.2s; width: 100%; }
+.tool-panel input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,85,212,0.1); }
+.quick-symptoms { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.symptom-chip { padding: 8px 16px; border-radius: 999px; border: 1.5px solid rgba(0,85,212,0.2); background: var(--primary-soft); color: var(--primary); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.symptom-chip:hover { background: rgba(0,85,212,0.2); transform: translateY(-2px); }
+.symptom-chip.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn { padding: 16px 28px; border-radius: 999px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: none; cursor: pointer; font-size: 1rem; font-family: inherit; transition: transform 0.2s, box-shadow 0.2s; }
+.btn:hover { transform: translateY(-3px); }
+.btn-analyze { background: linear-gradient(135deg, #00c76a, #00a857); color: #fff; box-shadow: 0 12px 36px rgba(0,199,106,0.3); width: 100%; justify-content: center; }
+.btn-clear { background: transparent; border: 2px solid rgba(0,0,0,0.1); color: var(--muted); padding: 14px 22px; border-radius: 999px; font-weight: 600; cursor: pointer; font-size: 0.9rem; font-family: inherit; transition: all 0.2s; }
+.btn-clear:hover { border-color: var(--primary); color: var(--primary); }
+.result-card { padding: 24px 28px; border-radius: 18px; background: rgba(255,255,255,0.85); border: 1px solid rgba(0,85,212,0.1); color: var(--text); font-size: 0.95rem; line-height: 1.8; min-height: 80px; transition: all 0.4s ease; }
+.result-card.has-result { border-color: rgba(0,199,106,0.3); background: linear-gradient(135deg, rgba(0,199,106,0.05), rgba(0,85,212,0.03)); }
+.result-card.has-warning { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.04); }
+.result-title { font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.result-advice { color: var(--muted); font-size: 0.92rem; }
+.result-cta { margin-top: 16px; }
+.btn-small { padding: 10px 20px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; background: var(--primary); color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; font-family: inherit; transition: transform 0.2s; }
+.btn-small:hover { transform: translateY(-2px); }
+.info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 36px; }
+.info-card { padding: 22px; border-radius: 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 8px 24px rgba(0,30,80,0.06); }
+.info-card .icon { font-size: 1.6rem; margin-bottom: 12px; }
+.info-card h4 { font-family: 'Sora',sans-serif; margin: 0 0 8px; font-size: 0.95rem; }
+.info-card p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+.disclaimer { margin-top: 28px; padding: 18px 22px; border-radius: 14px; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15); color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+.footer { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 24px; padding: 40px 48px; margin: 40px auto 40px; max-width: 860px; background: var(--surface); backdrop-filter: blur(18px); border-radius: 28px; border: 1px solid rgba(255,255,255,0.8); box-shadow: var(--shadow); }
+.footer h3 { font-family: 'Sora',sans-serif; margin: 0 0 10px; }
+.footer-links { display: grid; gap: 10px; }
+.footer-links a, .social-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+.footer-links a:hover { color: var(--primary); }
+.social-links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+@media (max-width: 760px) {
+  .topbar { padding: 16px 20px; }
+  .nav-links { position: fixed; top: 70px; right: -100%; flex-direction: column; width: 260px; padding: 20px; background: rgba(6,14,28,0.96); backdrop-filter: blur(20px); border-radius: 20px 0 0 20px; transition: right 0.3s; z-index: 30; }
+  .nav-links.open { right: 0; }
+  .nav-links a { color: #e8f2ff; }
+  .menu-toggle { display: flex; }
+  .page-wrap, .footer { padding-left: 20px; padding-right: 20px; }
+  .info-cards { grid-template-columns: 1fr; }
+  .footer { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Biomedica Health</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Accueil</a>
+      <a href="medecins.html">Médecins</a>
+      <a href="symptomes.html" class="active">Symptômes</a>
+      <a href="imc.html">IMC</a>
+    </nav>
+    <div class="header-actions">
+      <a class="back-btn" href="index.html">← Accueil</a>
+      <button class="theme-toggle" id="themeToggle">🌙 Sombre</button>
+      <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <p class="eyebrow">Outil Intelligent</p>
+    <h1 class="page-title">Vérificateur de Symptômes</h1>
+    <p class="page-sub">Décrivez vos symptômes ci-dessous ou sélectionnez parmi les suggestions. Notre outil vous oriente vers les premières recommandations de santé.</p>
+
+    <div class="tool-panel">
+      <label>
+        Décrivez vos symptômes
+        <input type="text" id="symptomInput" placeholder="ex. mal de tête, fièvre, nausée, fatigue..." />
+      </label>
+      <div>
+        <p style="margin:0 0 10px;font-weight:600;font-size:0.9rem;color:var(--muted);">Sélection rapide :</p>
+        <div class="quick-symptoms" id="quickSymptoms">
+          <button class="symptom-chip" data-val="fièvre">🌡️ Fièvre</button>
+          <button class="symptom-chip" data-val="mal de tête">🤕 Mal de tête</button>
+          <button class="symptom-chip" data-val="toux">😷 Toux</button>
+          <button class="symptom-chip" data-val="nausée">🤢 Nausée</button>
+          <button class="symptom-chip" data-val="fatigue">😴 Fatigue</button>
+          <button class="symptom-chip" data-val="douleur">😣 Douleur</button>
+          <button class="symptom-chip" data-val="migraine">🧠 Migraine</button>
+          <button class="symptom-chip" data-val="estomac">🫁 Trouble digestif</button>
+          <button class="symptom-chip" data-val="rhume">🤧 Rhume</button>
+          <button class="symptom-chip" data-val="inflammation">🔥 Inflammation</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn btn-analyze" id="analyzeBtn">🔍 Analyser mes symptômes</button>
+        <button class="btn-clear" id="clearBtn">✕ Effacer</button>
+      </div>
+      <div class="result-card" id="symptomResult">
+        <span style="color:var(--muted);">Votre analyse apparaîtra ici après avoir cliqué sur "Analyser".</span>
+      </div>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card"><div class="icon">⚡</div><h4>Résultats instantanés</h4><p>Obtenez une première orientation en quelques secondes sans attente.</p></div>
+      <div class="info-card"><div class="icon">🔒</div><h4>100% confidentiel</h4><p>Vos informations ne sont pas enregistrées. Votre vie privée est protégée.</p></div>
+      <div class="info-card"><div class="icon">👨‍⚕️</div><h4>Consulter un médecin</h4><p>Pour un diagnostic précis, <a href="medecins.html" style="color:var(--primary);font-weight:700;">réservez avec nos spécialistes</a>.</p></div>
+    </div>
+
+    <div class="disclaimer">⚠️ <strong>Avertissement médical :</strong> Cet outil fournit des informations générales à titre indicatif uniquement. Il ne remplace pas un diagnostic médical professionnel. En cas d'urgence, contactez immédiatement un médecin.</div>
+  </div>
+
+  <footer class="footer">
+    <div><h3>BIOMEDICA HEALTH</h3><p style="color:var(--muted);font-size:0.9rem;line-height:1.7;">Santé numérique simplifiée.</p></div>
+    <div class="footer-links"><a href="index.html">Accueil</a><a href="medecins.html">Médecins</a><a href="imc.html">Calculateur IMC</a></div>
+    <div><p style="font-size:0.9rem;color:var(--muted);">contact@biomedicahealth.com</p><div class="social-links"><a href="#">LinkedIn</a><a href="#">Twitter</a></div></div>
+  </footer>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  const themeToggle = document.getElementById('themeToggle');
+  const symptomInput = document.getElementById('symptomInput');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const symptomResult = document.getElementById('symptomResult');
+  const chips = document.querySelectorAll('.symptom-chip');
+
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  themeToggle.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (dark) { document.documentElement.removeAttribute('data-theme'); themeToggle.textContent = '🌙 Sombre'; }
+    else { document.documentElement.setAttribute('data-theme', 'dark'); themeToggle.textContent = '☀️ Clair'; }
+  });
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      const selected = Array.from(chips).filter(c => c.classList.contains('selected')).map(c => c.dataset.val);
+      symptomInput.value = selected.join(', ');
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    symptomInput.value = '';
+    chips.forEach(c => c.classList.remove('selected'));
+    symptomResult.className = 'result-card';
+    symptomResult.innerHTML = '<span style="color:var(--muted);">Votre analyse apparaîtra ici après avoir cliqué sur "Analyser".</span>';
+  });
+
+  const categories = [
+    { label: 'Infection respiratoire possible', icon: '🫁', keys: ['fièvre','toux','grippe','rhume'], advice: 'Reposez-vous, hydratez-vous abondamment. Si la fièvre dépasse 39°C ou persiste plus de 3 jours, consultez un médecin.', urgent: false },
+    { label: 'Douleur ou inflammation', icon: '🔥', keys: ['douleur','courbature','inflammation'], advice: 'Surveillez l\'intensité et la localisation de la douleur. Consultez si la douleur est intense ou persistante.', urgent: false },
+    { label: 'Trouble digestif', icon: '🤢', keys: ['nausée','vomissement','estomac','reflux'], advice: 'Hydratez-vous avec de petites quantités régulières. Si vomissements intenses ou plus de 24h, consultez.', urgent: false },
+    { label: 'Céphalée / Migraine', icon: '🧠', keys: ['mal de tête','migraine'], advice: 'Reposez-vous dans un endroit calme et sombre. Si la douleur est soudaine et très intense, consultez immédiatement.', urgent: false },
+    { label: 'Fatigue importante', icon: '😴', keys: ['fatigue','épuisement'], advice: 'Prévoyez du repos et maintenez une bonne hydratation. Si la fatigue persiste plus d\'une semaine, consultez.', urgent: false },
+    { label: 'Symptôme potentiellement urgent', icon: '🚨', keys: ['poitrine','essoufflement'], advice: 'Ces symptômes peuvent nécessiter une attention médicale immédiate. Consultez dès que possible.', urgent: true },
+  ];
+
+  analyzeBtn.addEventListener('click', () => {
+    const text = symptomInput.value.trim().toLowerCase();
+    if (!text) {
+      symptomResult.className = 'result-card';
+      symptomResult.innerHTML = '<span style="color:#ef4444;">⚠️ Veuillez saisir ou sélectionner au moins un symptôme.</span>';
+      return;
+    }
+    const match = categories.find(c => c.keys.some(k => text.includes(k)));
+    if (match) {
+      symptomResult.className = match.urgent ? 'result-card has-warning' : 'result-card has-result';
+      symptomResult.innerHTML = '<div class="result-title">' + match.icon + ' ' + match.label + '</div><div class="result-advice">' + match.advice + '</div><div class="result-cta"><a href="medecins.html" class="btn-small">👨‍⚕️ Consulter un spécialiste →</a></div>';
+    } else {
+      symptomResult.className = 'result-card has-result';
+      symptomResult.innerHTML = '<div class="result-title">🔎 Symptômes complexes ou combinés</div><div class="result-advice">Les symptômes décrits méritent une attention prudente. Une observation de 24-48h est recommandée. Si les symptômes s\'aggravent, consultez.</div><div class="result-cta"><a href="medecins.html" class="btn-small">👨‍⚕️ Voir nos médecins →</a></div>';
+    }
+  });
+
+  symptomInput.addEventListener('keydown', e => { if (e.key === 'Enter') analyzeBtn.click(); });
+});
+  </script>
+</body>
+</html>

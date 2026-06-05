@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BIOHEALTH – Présentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#f5f0e8;
+  --cream2:#ede8da;
+  --gold:#c9a84c;
+  --gold2:#e8d5a0;
+  --muted:#7a6e5e;
+  --blue:#0055d4;
+  --green:#00c76a;
+  --red:#e74c3c;
+  --slide-w:960px;
+  --slide-h:540px;
+}
+body{
+  background:#2a2520;
+  font-family:'DM Sans',sans-serif;
+  color:var(--dark);
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;
+  padding:0;
+  overflow-x:hidden;
+}
+
+/* ── CONTROLS ── */
+.controls{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(20,15,10,0.95);
+  backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;gap:20px;
+  padding:14px 24px;z-index:100;
+}
+.ctrl-btn{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;padding:9px 22px;border-radius:999px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.85rem;
+  transition:all 0.2s;
+}
+.ctrl-btn:hover{background:var(--gold);border-color:var(--gold);color:#000}
+.slide-counter{color:rgba(255,255,255,0.6);font-size:0.9rem;font-weight:500;min-width:70px;text-align:center}
+.progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--green));
+  transition:width 0.4s ease;z-index:200;
+}
+
+/* ── SLIDESHOW ── */
+.slideshow{
+  width:var(--slide-w);max-width:98vw;
+  margin:40px 0 80px;
+  position:relative;
+}
+.slide{
+  display:none;
+  width:var(--slide-w);max-width:98vw;
+  min-height:var(--slide-h);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6);
+  position:relative;
+  animation:fadeIn 0.4s ease;
+}
+.slide.active{display:flex;flex-direction:column}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* THUMBNAIL STRIP */
+.thumb-strip{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:0 24px 80px;max-width:1100px;
+}
+.thumb{
+  width:110px;height:62px;border-radius:6px;overflow:hidden;
+  cursor:pointer;border:2px solid transparent;
+  transition:all 0.2s;background:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:var(--muted);font-weight:700;text-align:center;padding:4px;
+  position:relative;
+}
+.thumb:hover{border-color:var(--gold);transform:translateY(-2px)}
+.thumb.active-thumb{border-color:var(--gold);}
+.thumb-num{
+  position:absolute;bottom:2px;left:4px;
+  font-size:0.55rem;font-weight:700;color:var(--muted);
+}
+
+/* ── BASE SLIDE STYLE (Canva beige) ── */
+.slide-base{
+  background:var(--cream);
+  padding:50px 60px;
+  flex:1;
+  display:flex;flex-direction:column;
+}
+.slide-footer{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.08em;
+  color:var(--muted);text-align:right;padding:14px 30px 10px;
+  background:var(--cream);border-top:1px solid rgba(0,0,0,0.06);
+  text-transform:uppercase;
+}
+
+/* Common elements */
+.eyebrow{
+  display:inline-block;font-size:0.65rem;font-weight:800;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:8px;
+}
+.slide-title{
+  font-family:'Sora',sans-serif;font-weight:800;
+  font-size:2.1rem;letter-spacing:-0.03em;color:var(--dark);
+  line-height:1.1;
+}
+.slide-title-big{font-size:2.8rem}
+.tag{
+  display:inline-block;background:var(--gold2);
+  color:var(--dark);font-weight:700;font-size:0.7rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 12px;border-radius:4px;
+}
+
+/* ══════════════════════════════════════
+   SLIDE 1 – COVER
+══════════════════════════════════════ */
+#s1{background:linear-gradient(135deg,#0a0e1a 0%,#0d1b2e 50%,#0a1628 100%)}
+.s1-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  height:100%;gap:0;flex:1;
+}
+.s1-code{
+  background:rgba(0,0,0,0.4);padding:36px 28px;
+  overflow:hidden;font-family:monospace;font-size:0.72rem;
+  color:#7fbfff;line-height:1.7;border-right:1px solid rgba(255,255,255,0.06);
+}
+.s1-code .kw{color:#ff9d5c}
+.s1-code .fn{color:#79d7a8}
+.s1-code .str{color:#f4d27e}
+.s1-right{
+  padding:50px 44px;display:flex;flex-direction:column;
+  justify-content:center;
+}
+.s1-logo{
+  font-family:'Sora',sans-serif;font-weight:800;
+  font-size:2.6rem;letter-spacing:-0.04em;
+  color:#fff;margin-bottom:12px;
+}
+.s1-logo span{color:var(--gold)}
+.s1-sub{
+  font-size:0.9rem;color:rgba(255,255,255,0.5);
+  font-style:italic;margin-bottom:36px;letter-spacing:0.02em;
+}
+.s1-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);
+  border-radius:999px;padding:8px 18px;color:rgba(255,255,255,0.7);
+  font-size:0.75rem;font-weight:600;width:fit-content;margin-bottom:10px;
+}
+.s1-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.s1-presenters{
+  margin-top:auto;padding-top:30px;border-top:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.35);font-size:0.72rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+}
+
+/* ══════════════════════════════════════
+   SLIDE 2 – INTRODUCTION
+══════════════════════════════════════ */
+#s2{background:var(--cream)}
+.s2-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:50px;flex:1;align-items:center}
+.s2-img{
+  background:linear-gradient(135deg,#0a0e1a,#0d2a4a);
+  border-radius:10px;height:320px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.s2-img-code{
+  font-family:monospace;font-size:0.62rem;color:#4a9eff;
+  line-height:1.8;padding:20px;opacity:0.7;text-align:left;
+  width:100%;
+}
+.s2-img-badge{
+  position:absolute;bottom:16px;right:16px;
+  background:rgba(0,199,106,0.15);border:1px solid rgba(0,199,106,0.3);
+  color:var(--green);font-size:0.65rem;font-weight:700;
+  padding:4px 10px;border-radius:4px;letter-spacing:0.08em;
+}
+.s2-content{}
+.s2-content .slide-title{margin-bottom:20px}
+.s2-intro-text{color:var(--muted);line-height:1.85;font-size:0.92rem}
+.s2-intro-text strong{color:var(--dark);font-weight:700}
+.s2-features{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.s2-feat{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(201,168,76,0.08);border-left:3px solid var(--gold);
+  padding:10px 14px;border-radius:0 6px 6px 0;
+  font-size:0.82rem;color:var(--dark);line-height:1.5;
+}
+.s2-feat .ico{font-size:1rem;flex-shrink:0;margin-top:1px}
+
+/* ══════════════════════════════════════
+   SLIDE 3 – PROBLÉMATIQUE
+══════════════════════════════════════ */
+#s3{background:var(--cream)}
+.s3-problems{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.s3-prob{background:var(--gold2);border-radius:6px;padding:18px 16px}
+.s3-prob h4{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--dark);margin-bottom:8px}
+.s3-prob p{font-size:0.77rem;color:var(--muted);line-height:1.6;font-weight:500;text-transform:uppercase}
+.s3-compare{background:rgba(0,0,0,0.03);border-radius:8px;padding:18px}
+.s3-compare h4{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--dark);margin-bottom:14px}
+.s3-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.s3-col{background:white;border-radius:6px;padding:14px}
+.s3-col h5{font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px}
+.s3-col.bad h5{color:#e74c3c}
+.s3-col.good h5{color:var(--green)}
+.s3-item{display:flex;align-items:flex-start;gap:7px;font-size:0.72rem;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.s3-item .ic{font-size:0.9rem;flex-shrink:0}
+
+/* ══════════════════════════════════════
+   SLIDE 4 – CE QUE FAIT L'APPLICATION
+══════════════════════════════════════ */
+#s4{background:var(--cream)}
+.s4-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;margin-top:28px}
+.s4-card{background:var(--gold2);border-radius:6px;padding:20px 18px}
+.s4-card h4{font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--dark);margin-bottom:8px}
+.s4-card p{font-size:0.78rem;color:var(--muted);line-height:1.6;text-transform:uppercase;font-weight:500}
+
+/* ══════════════════════════════════════
+   SLIDE 5 – DU LOGIN AU RÉSULTAT
+══════════════════════════════════════ */
+#s5{background:var(--cream)}
+.s5-steps{display:flex;flex-direction:column;gap:14px;flex:1;margin-top:28px}
+.s5-step{display:flex;align-items:flex-start;gap:18px}
+.s5-num{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid var(--gold);color:var(--gold);
+  font-family:'Sora',sans-serif;font-weight:800;font-size:0.9rem;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  margin-top:2px;
+}
+.s5-content{}
+.s5-content h4{
+  background:var(--gold2);display:inline-block;
+  padding:8px 16px;border-radius:4px;
+  font-size:0.78rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.06em;color:var(--dark);margin-bottom:4px;
+}
+.s5-content p{font-size:0.72rem;color:var(--muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase}
+
+/* ══════════════════════════════════════
+   SLIDE 6 – TECHNOLOGIES
+══════════════════════════════════════ */
+#s6{background:var(--cream)}
+.s6-cards{display:flex;gap:20px;flex:1;align-items:center;margin-top:28px}
+.s6-card{
+  flex:1;background:var(--gold2);border-radius:6px;
+  padding:28px 20px;text-align:center;position:relative;
+}
+.s6-num{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:var(--cream);border:2px solid var(--gold);
+  font-family:'Sora',sans-serif;font-weight:800;font-size:0.75rem;
+  color:var(--gold);display:flex;align-items:center;justify-content:center;
+}
+.s6-card h4{font-size:0.9rem;font-weight:800;letter-spacing:0.08em;color:var(--dark);margin-bottom:10px}
+.s6-card p{font-size:0.72rem;color:var(--muted);text-transform:uppercase;font-weight:600;line-height:1.6;margin-bottom:10px}
+.s6-badge{
+  display:inline-block;background:rgba(0,0,0,0.06);
+  border-radius:4px;padding:4px 10px;
+  font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--dark);
+}
+
+/* ══════════════════════════════════════
+   SLIDE 7 – CONCEPTION
+══════════════════════════════════════ */
+#s7{background:var(--cream)}
+.s7-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;flex:1;align-items:center}
+.s7-left h4{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin:24px 0 14px}
+.s7-diagram{
+  background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.08);
+  border-radius:8px;padding:24px;font-size:0.72rem;height:320px;
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+.uml{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.uml-actor{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:0.7rem;color:var(--muted);font-weight:600}
+.uml-actor .fig{font-size:1.6rem}
+.uml-cases{display:flex;flex-direction:column;gap:8px}
+.uml-case{
+  border:1.5px solid var(--green);border-radius:999px;
+  padding:5px 16px;font-size:0.67rem;font-weight:700;color:var(--dark);
+  background:rgba(0,199,106,0.05);text-align:center;
+}
+.uml-line{
+  width:32px;height:1px;background:var(--muted);flex-shrink:0;
+}
+
+/* ══════════════════════════════════════
+   SLIDE 8 – INTERFACE LOGIN
+══════════════════════════════════════ */
+#s8{background:var(--cream)}
+.s8-screens{display:flex;gap:24px;flex:1;align-items:center;margin-top:28px;justify-content:center}
+.s8-arrow{font-size:1.4rem;color:var(--muted);align-self:center;flex-shrink:0}
+.s8-screen{
+  width:200px;background:#3b3ef0;border-radius:10px;
+  padding:20px 16px;color:white;flex-shrink:0;
+  box-shadow:0 8px 30px rgba(59,62,240,0.4);
+}
+.s8-screen .app-name{font-family:'Sora',sans-serif;font-weight:800;font-size:0.85rem;text-align:center;margin-bottom:4px}
+.s8-screen .app-sub{font-size:0.6rem;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:16px;font-style:italic}
+.s8-btns{display:flex;gap:8px;margin-bottom:14px}
+.s8-btn{
+  flex:1;padding:7px 0;border-radius:6px;font-size:0.65rem;font-weight:700;text-align:center;
+  cursor:default;
+}
+.s8-btn.outline{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7)}
+.s8-btn.fill{background:#fff;color:#3b3ef0}
+.s8-field{
+  background:rgba(255,255,255,0.1);border-radius:5px;
+  height:26px;margin-bottom:8px;display:flex;align-items:center;
+  padding:0 10px;font-size:0.6rem;color:rgba(255,255,255,0.4);
+}
+.s8-submit{
+  background:#4ade80;border-radius:6px;padding:8px;
+  font-size:0.65rem;font-weight:800;text-align:center;
+  color:#000;margin-top:10px;
+}
+
+/* ══════════════════════════════════════
+   SLIDE 9 – INTERFACE THÈME/QUIZ
+══════════════════════════════════════ */
+#s9{background:var(--cream)}
+.s9-screens{display:flex;gap:24px;flex:1;align-items:center;margin-top:28px;justify-content:center}
+.s9-screen{
+  width:200px;border-radius:10px;padding:18px;flex-shrink:0;
+  background:#1a1f2e;color:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+.s9-screen .sc-title{font-size:0.78rem;font-weight:800;margin-bottom:14px;text-align:center;color:#fff}
+.s9-themes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.s9-theme{
+  background:rgba(255,255,255,0.07);border-radius:8px;
+  padding:10px 6px;text-align:center;font-size:0.58rem;color:rgba(255,255,255,0.7);
+}
+.s9-theme .ico{font-size:1.1rem;display:block;margin-bottom:4px}
+.s9-q{font-size:0.68rem;color:rgba(255,255,255,0.7);margin-bottom:10px;line-height:1.5;text-align:center}
+.s9-opts{display:flex;flex-direction:column;gap:6px}
+.s9-opt{
+  background:rgba(255,255,255,0.07);border-radius:5px;
+  padding:6px 10px;font-size:0.6rem;color:rgba(255,255,255,0.7);
+  display:flex;align-items:center;gap:6px;
+}
+.s9-opt .rb{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.3);flex-shrink:0}
+
+/* ══════════════════════════════════════
+   SLIDE 10 – INTERFACE CHALLENGE
+══════════════════════════════════════ */
+#s10{background:var(--cream)}
+.s10-screens{display:flex;gap:24px;flex:1;align-items:center;margin-top:28px;justify-content:center}
+.s10-screen{
+  width:200px;border-radius:10px;padding:18px;flex-shrink:0;
+  background:#1a1f2e;color:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+.s10-screen .sc-title{font-size:0.78rem;font-weight:800;margin-bottom:12px;text-align:center}
+.s10-levels{display:flex;gap:6px;margin-bottom:14px;justify-content:center}
+.s10-level{
+  border-radius:8px;padding:8px 10px;text-align:center;
+  font-size:0.58rem;font-weight:700;color:#fff;
+}
+.s10-level.easy{background:#27ae60}
+.s10-level.med{background:#f39c12}
+.s10-level.hard{background:#e74c3c}
+.s10-level span{display:block;font-size:0.5rem;font-weight:400;opacity:0.8;margin-top:2px}
+
+/* ══════════════════════════════════════
+   SLIDE 11 – INTERFACE RÉSULTAT
+══════════════════════════════════════ */
+#s11{background:var(--cream)}
+.s11-screens{display:flex;gap:24px;flex:1;align-items:center;margin-top:28px;justify-content:center}
+.s11-screen{
+  width:200px;border-radius:10px;padding:18px;flex-shrink:0;
+  background:#1a1f2e;color:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+.s11-screen .sc-title{font-size:0.78rem;font-weight:800;margin-bottom:12px;text-align:center}
+.s11-rank{display:flex;flex-direction:column;gap:5px}
+.s11-row{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.05);border-radius:5px;padding:5px 8px;
+  font-size:0.6rem;
+}
+.s11-row .pos{width:14px;text-align:center;font-weight:800;color:var(--gold)}
+.s11-row .name{flex:1;color:rgba(255,255,255,0.7)}
+.s11-row .score{color:var(--green);font-weight:700}
+.s11-score-box{
+  text-align:center;margin-top:14px;
+  background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);
+  border-radius:8px;padding:14px;
+}
+.s11-score-box .pts{font-family:'Sora',sans-serif;font-size:1.6rem;font-weight:800;color:var(--gold)}
+.s11-score-box .label{font-size:0.6rem;color:rgba(255,255,255,0.5);margin-top:2px}
+.s11-replay{
+  margin-top:8px;background:rgba(255,255,255,0.1);border-radius:6px;
+  padding:6px;font-size:0.6rem;font-weight:700;text-align:center;color:rgba(255,255,255,0.7);
+}
+
+/* ══════════════════════════════════════
+   SLIDE 12 – MERCI
+══════════════════════════════════════ */
+#s12{background:var(--cream2);display:flex;flex-direction:column;}
+.s12-inner{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;gap:12px;
+  padding:50px 60px;
+}
+.s12-top{height:80px;background:var(--cream);border-radius:0 0 0 0}
+.s12-bottom{height:80px;background:var(--cream)}
+.s12-title{
+  font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;
+  color:var(--dark);letter-spacing:-0.02em;
+}
+.s12-sub{font-size:0.85rem;color:var(--muted);font-style:italic;margin-top:8px}
+.s12-logo{
+  font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:800;
+  color:var(--blue);letter-spacing:-0.02em;margin-top:20px;
+}
+.s12-logo span{color:var(--gold)}
+
+/* presenter line (all slides) */
+.presenter-line{
+  font-size:0.65rem;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* Responsive */
+@media(max-width:700px){
+  .slideshow,.slide{width:100vw;min-height:auto}
+  .s1-inner,.s2-grid,.s3-cols,.s4-grid,.s6-cards,.s7-grid{grid-template-columns:1fr}
+  .s1-code{display:none}
+  .s1-right{padding:36px 28px}
+  .s8-screens,.s9-screens,.s10-screens,.s11-screens{flex-direction:column}
+  .s8-arrow{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ══ SLIDESHOW ══ -->
+<div class="slideshow">
+
+  <!-- SLIDE 1 – COVER -->
+  <div class="slide" id="s1">
+    <div class="s1-inner">
+      <div class="s1-code">
+        &lt;<span class="kw">div</span> <span class="fn">id</span>=<span class="str">"app"</span>&gt;<br>
+        &nbsp;&lt;<span class="kw">nav</span> <span class="fn">class</span>=<span class="str">"topbar"</span>&gt;<br>
+        &nbsp;&nbsp;&lt;<span class="kw">a</span> <span class="fn">class</span>=<span class="str">"brand"</span>&gt;BIO<span class="str">HEALTH</span>&lt;/<span class="kw">a</span>&gt;<br>
+        &nbsp;&lt;/<span class="kw">nav</span>&gt;<br>
+        &nbsp;&lt;<span class="kw">section</span> <span class="fn">id</span>=<span class="str">"hero"</span>&gt;<br>
+        &nbsp;&nbsp;&lt;<span class="kw">h1</span>&gt;Votre santé …&lt;/<span class="kw">h1</span>&gt;<br>
+        &nbsp;&lt;/<span class="kw">section</span>&gt;<br>
+        &nbsp;&lt;<span class="kw">section</span> <span class="fn">id</span>=<span class="str">"services"</span>&gt;<br>
+        &nbsp;&nbsp;&lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"service-card"</span>&gt;<br>
+        &nbsp;&nbsp;&nbsp;👨‍⚕️ Médecins<br>
+        &nbsp;&nbsp;&lt;/<span class="kw">div</span>&gt;<br>
+        &nbsp;&nbsp;&lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"service-card"</span>&gt;<br>
+        &nbsp;&nbsp;&nbsp;🔍 Symptômes<br>
+        &nbsp;&nbsp;&lt;/<span class="kw">div</span>&gt;<br>
+        &nbsp;&nbsp;&lt;<span class="kw">div</span> <span class="fn">class</span>=<span class="str">"service-card"</span>&gt;<br>
+        &nbsp;&nbsp;&nbsp;📊 IMC<br>
+        &nbsp;&nbsp;&lt;/<span class="kw">div</span>&gt;<br>
+        &nbsp;&lt;/<span class="kw">section</span>&gt;<br>
+        &lt;/<span class="kw">div</span>&gt;
+      </div>
+      <div class="s1-right">
+        <div class="s1-logo">BIO<span>HEALTH</span></div>
+        <div class="s1-sub">Plateforme de santé numérique</div>
+        <div class="s1-pill"><span class="dot"></span> site web Interactive</div>
+        <div class="s1-pill"><span class="dot"></span> Services Médicaux en Ligne</div>
+        <div class="s1-presenters presenter-line" style="color:rgba(255,255,255,0.35)">
+          Présenté par · amal abassi
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer" style="background:#0d1b2e;color:rgba(255,255,255,0.25);border-top-color:rgba(255,255,255,0.06)">
+      PRÉSENTÉ PAR · amal abassi 
+    </div>
+  </div>
+
+  <!-- SLIDE 2 – INTRODUCTION -->
+  <div class="slide" id="s2">
+    <div class="slide-base">
+      <div class="s2-grid">
+        <div class="s2-img">
+          <div class="s2-img-code">
+&lt;section id="hero"&gt;<br>
+&nbsp;&lt;h1&gt;Votre santé,<br>
+&nbsp;&nbsp;simplifiée.&lt;/h1&gt;<br>
+&nbsp;&lt;p&gt;200+ médecins …&lt;/p&gt;<br>
+&nbsp;&lt;a href="#rdv"&gt;<br>
+&nbsp;&nbsp;Prendre RDV&lt;/a&gt;<br>
+&lt;/section&gt;<br>
+&lt;section id="services"&gt;<br>
+&nbsp;&lt;!-- Médecins, IMC,<br>
+&nbsp;&nbsp;Symptômes … --&gt;<br>
+&lt;/section&gt;
+          </div>
+          <div class="s2-img-badge">HTML · CSS · JS</div>
+        </div>
+        <div class="s2-content">
+          <div class="eyebrow">Introduction</div>
+          <div class="slide-title">INTRODUCTION</div>
+          <p class="s2-intro-text" style="margin-top:14px">
+            <strong>BIOHEALTH</strong> est une site web de santé numérique qui connecte les patients à des médecins spécialisés, analyse leurs symptômes et calcule leur IMC.<br><br>
+            Son objectif est de rendre l'accès aux soins plus simple, plus rapide et plus intelligent grâce à des outils interactifs.
+          </p>
+          <div class="s2-features">
+            <div class="s2-feat"><span class="ico">🩺</span> Prise de rendez-vous en ligne avec confirmation instantanée</div>
+            <div class="s2-feat"><span class="ico">🔍</span> Vérificateur de symptômes intelligent basé sur des catégories médicales</div>
+            <div class="s2-feat"><span class="ico">📊</span> Calculateur IMC avec conseils personnalisés selon les normes OMS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 3 – PROBLÉMATIQUE -->
+  <div class="slide" id="s3">
+    <div class="slide-base">
+      <div class="eyebrow">Contexte</div>
+      <div class="slide-title">PROBLÉMATIQUE :</div>
+      <div class="s3-problems" style="margin-top:20px">
+        <div class="s3-prob">
+          <h4>Accès difficile aux soins</h4>
+          <p>Les patients perdent du temps à chercher un médecin disponible sans outil centralisé.</p>
+        </div>
+        <div class="s3-prob">
+          <h4>Aucun suivi de santé</h4>
+          <p>Sans retour immédiat sur les symptômes, l'utilisateur ne sait pas comment réagir.</p>
+        </div>
+        <div class="s3-prob">
+          <h4>Méconnaissance de son IMC</h4>
+          <p>Peu d'outils simples permettent de connaître et comprendre son indice santé.</p>
+        </div>
+      </div>
+      <div class="s3-compare">
+        <h4>BIOHEALTH VS. LES AUTRES SOLUTIONS :</h4>
+        <div class="s3-cols">
+          <div class="s3-col bad">
+            <h5>❌ Sans BIOHEALTH</h5>
+            <div class="s3-item"><span class="ic">✖</span>Recherche manuelle de médecins</div>
+            <div class="s3-item"><span class="ic">✖</span>Aucune analyse de symptômes</div>
+            <div class="s3-item"><span class="ic">✖</span>Rendez-vous par téléphone uniquement</div>
+          </div>
+          <div class="s3-col good">
+            <h5>✅ Avec BIOHEALTH</h5>
+            <div class="s3-item"><span class="ic">✔</span>Annuaire de 200+ spécialistes filtrable</div>
+            <div class="s3-item"><span class="ic">✔</span>Analyse des symptômes en temps réel</div>
+            <div class="s3-item"><span class="ic">✔</span>Réservation en ligne en quelques clics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 4 – CE QUE FAIT L'APPLICATION -->
+  <div class="slide" id="s4">
+    <div class="slide-base">
+      <div class="eyebrow">Fonctionnalités</div>
+      <div class="slide-title">CE QUE FAIT L'APPLICATION :</div>
+      <div class="s4-grid">
+        <div class="s4-card">
+          <h4>🔐 Authentification thème</h4>
+          <p>Mode clair / sombre avec basculement instantané. Mémorisation du médecin choisi via localStorage.</p>
+        </div>
+        <div class="s4-card">
+          <h4>📅 Réservation en ligne</h4>
+          <p>Formulaire avec sélecteur de date/heure (Flatpickr), choix du médecin et confirmation instantanée.</p>
+        </div>
+        <div class="s4-card">
+          <h4>🔍 Analyse des symptômes</h4>
+          <p>6 catégories médicales (respiratoire, digestif, céphalée…) avec conseils personnalisés et aléatoires.</p>
+        </div>
+        <div class="s4-card">
+          <h4>📊 Calculateur IMC</h4>
+          <p>Calcul selon les normes OMS avec catégorisation (insuffisance, normal, surpoids) et recommandation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 5 – DU PATIENT AU RÉSULTAT -->
+  <div class="slide" id="s5">
+    <div class="slide-base">
+      <div class="eyebrow">Parcours utilisateur</div>
+      <div class="slide-title">DU PATIENT AU RÉSULTAT :</div>
+      <div class="s5-steps">
+        <div class="s5-step">
+          <div class="s5-num">1</div>
+          <div class="s5-content">
+            <h4>L'utilisateur parcourt les médecins disponibles et filtre par spécialité ou nom.</h4>
+            <p>DOCTEUR.HTML — Filtre de recherche + cards interactives</p>
+          </div>
+        </div>
+        <div class="s5-step">
+          <div class="s5-num">2</div>
+          <div class="s5-content">
+            <h4>Il saisit ses symptômes et reçoit une analyse immédiate avec conseils.</h4>
+            <p>INDEX.HTML — Section outil de symptômes avec détection multi-catégories</p>
+          </div>
+        </div>
+        <div class="s5-step">
+          <div class="s5-num">3</div>
+          <div class="s5-content">
+            <h4>Il calcule son IMC et obtient sa catégorie santé selon les normes OMS.</h4>
+            <p>IMC.HTML — Calculateur avec résultat et recommandation personnalisée</p>
+          </div>
+        </div>
+        <div class="s5-step">
+          <div class="s5-num">4</div>
+          <div class="s5-content">
+            <h4>Il réserve un rendez-vous médical en ligne avec confirmation instantanée.</h4>
+            <p>INDEX.HTML — Section appointment avec sélecteur de date Flatpickr</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 6 – TECHNOLOGIES -->
+  <div class="slide" id="s6">
+    <div class="slide-base">
+      <div class="eyebrow">Stack technique</div>
+      <div class="slide-title">TECHNOLOGIES UTILISÉES</div>
+      <div class="s6-cards">
+        <div class="s6-card">
+          <div class="s6-num">1</div>
+          <h4>HTML</h4>
+          <p>Structure des 3 pages — Accueil, Médecins, IMC. Sections sémantiques et formulaires accessibles.</p>
+          <span class="s6-badge">3 Fichiers</span>
+        </div>
+        <div class="s6-card">
+          <div class="s6-num">2</div>
+          <h4>CSS</h4>
+          <p>Design unifié, fond dégradé, mode sombre, variables CSS, animations fadeIn et responsive mobile.</p>
+          <span class="s6-badge">CSS intégré</span>
+        </div>
+        <div class="s6-card">
+          <div class="s6-num">3</div>
+          <h4>JS</h4>
+          <p>Logique de filtrage, moteur de symptômes, calculateur IMC, Flatpickr et navigation fluide.</p>
+          <span class="s6-badge">1 Fichier partagé</span>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 7 – CONCEPTION -->
+  <div class="slide" id="s7">
+    <div class="slide-base">
+      <div class="eyebrow">Architecture</div>
+      <div class="slide-title">CONCEPTION :</div>
+      <div class="s7-grid">
+        <div class="s7-left">
+          <h4>DIAGRAMME DE CAS D'UTILISATION :</h4>
+          <p style="font-size:0.78rem;color:var(--muted);line-height:1.7;margin-top:8px">
+            Le patient interagit avec les services clés de BIOHEALTH : recherche de médecins, analyse de symptômes, calcul IMC, et prise de rendez-vous avec confirmation automatique.
+          </p>
+        </div>
+        <div class="s7-diagram">
+          <div class="uml">
+            <div class="uml-actor">
+              <div class="fig">🧑</div>
+              <div>Patient</div>
+            </div>
+            <div class="uml-line"></div>
+            <div class="uml-cases">
+              <div class="uml-case">S'inscrire / Se connecter</div>
+              <div class="uml-case">Chercher un médecin</div>
+              <div class="uml-case">Analyser des symptômes</div>
+              <div class="uml-case">Calculer son IMC</div>
+              <div class="uml-case">Réserver un rendez-vous</div>
+              <div class="uml-case">Voir la confirmation</div>
+            </div>
+            <div class="uml-line"></div>
+            <div class="uml-actor">
+              <div class="fig">⚕️</div>
+              <div>Système</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 8 – INTERFACE LOGIN -->
+  <div class="slide" id="s8">
+    <div class="slide-base">
+      <div class="eyebrow">Interface</div>
+      <div class="slide-title">INTERFACE DE site:</div>
+      <div class="s8-screens">
+        <!-- Screen A: Mode clair -->
+        <div class="s8-screen" style="background:#f0f7ff;color:#0a1628;box-shadow:0 8px 30px rgba(0,85,212,0.15)">
+          <div class="app-name" style="color:#0055d4">BIOHEALTH</div>
+          <div class="app-sub" style="color:#4a6280">Mode Clair</div>
+          <div style="display:flex;gap:6px;margin-bottom:10px">
+            <div style="flex:1;background:#0055d4;border-radius:5px;padding:7px 0;font-size:0.6rem;font-weight:700;text-align:center;color:#fff">Accueil</div>
+            <div style="flex:1;background:rgba(0,85,212,0.1);border-radius:5px;padding:7px 0;font-size:0.6rem;font-weight:700;text-align:center;color:#0055d4">Médecins</div>
+          </div>
+          <div style="background:rgba(0,85,212,0.06);border-radius:6px;padding:10px;font-size:0.62rem;color:#4a6280;margin-bottom:8px">
+            <strong style="color:#0a1628;font-size:0.68rem">Votre santé, simplifiée</strong><br>
+            200+ médecins spécialistes
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div style="background:rgba(0,85,212,0.08);border-radius:5px;padding:8px;font-size:0.58rem;color:#0055d4;text-align:center">👨‍⚕️<br>Médecins</div>
+            <div style="background:rgba(0,199,106,0.1);border-radius:5px;padding:8px;font-size:0.58rem;color:#00a857;text-align:center">🔍<br>Symptômes</div>
+            <div style="background:rgba(0,85,212,0.08);border-radius:5px;padding:8px;font-size:0.58rem;color:#0055d4;text-align:center">📊<br>IMC</div>
+            <div style="background:rgba(0,199,106,0.1);border-radius:5px;padding:8px;font-size:0.58rem;color:#00a857;text-align:center">📅<br>Rendez-vous</div>
+          </div>
+        </div>
+        <div class="s8-arrow">→</div>
+        <!-- Screen B: Mode sombre -->
+        <div class="s8-screen">
+          <div class="app-name">BIOHEALTH</div>
+          <div class="app-sub">Mode Sombre</div>
+          <div style="display:flex;gap:6px;margin-bottom:10px">
+            <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:5px;padding:7px 0;font-size:0.6rem;font-weight:700;text-align:center;color:rgba(255,255,255,0.6)">Accueil</div>
+            <div style="flex:1;background:rgba(0,85,212,0.6);border-radius:5px;padding:7px 0;font-size:0.6rem;font-weight:700;text-align:center;color:#fff">Médecins</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;font-size:0.62rem;color:rgba(255,255,255,0.5);margin-bottom:8px">
+            <strong style="color:#fff;font-size:0.68rem">Votre santé, simplifiée</strong><br>
+            200+ médecins spécialistes
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div style="background:rgba(0,85,212,0.3);border-radius:5px;padding:8px;font-size:0.58rem;color:#7fbfff;text-align:center">👨‍⚕️<br>Médecins</div>
+            <div style="background:rgba(0,199,106,0.15);border-radius:5px;padding:8px;font-size:0.58rem;color:#4ade80;text-align:center">🔍<br>Symptômes</div>
+            <div style="background:rgba(0,85,212,0.3);border-radius:5px;padding:8px;font-size:0.58rem;color:#7fbfff;text-align:center">📊<br>IMC</div>
+            <div style="background:rgba(0,199,106,0.15);border-radius:5px;padding:8px;font-size:0.58rem;color:#4ade80;text-align:center">📅<br>Rendez-vous</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 9 – INTERFACE MÉDECINS & SYMPTÔMES -->
+  <div class="slide" id="s9">
+    <div class="slide-base">
+      <div class="eyebrow">Interface</div>
+      <div class="slide-title">INTERFACE DE site :</div>
+      <div class="s9-screens">
+        <!-- Médecins -->
+        <div class="s9-screen">
+          <div class="sc-title">👨‍⚕️ Nos Médecins</div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:5px;padding:5px 8px;font-size:0.58rem;color:rgba(255,255,255,0.5);margin-bottom:8px">🔍 Rechercher un médecin…</div>
+          <div style="display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap">
+            <div style="background:rgba(0,85,212,0.4);border-radius:4px;padding:3px 7px;font-size:0.55rem;color:#7fbfff;font-weight:700">Cardio</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:3px 7px;font-size:0.55rem;color:rgba(255,255,255,0.4)">Dermato</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:4px;padding:3px 7px;font-size:0.55rem;color:rgba(255,255,255,0.4)">Pédia</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="background:rgba(255,255,255,0.05);border-radius:5px;padding:8px;font-size:0.58rem">
+              <strong style="color:#fff">Dr. Sofia Alvarez</strong>
+              <span style="color:rgba(255,255,255,0.4);display:block">Cardiologue</span>
+              <div style="background:rgba(0,85,212,0.5);border-radius:4px;padding:3px 7px;font-size:0.55rem;color:#fff;margin-top:5px;text-align:center;font-weight:700">Prendre RDV</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border-radius:5px;padding:8px;font-size:0.58rem">
+              <strong style="color:#fff">Dr. Ethan Brown</strong>
+              <span style="color:rgba(255,255,255,0.4);display:block">Dermatologue</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:1.4rem;color:var(--muted);align-self:center">→</div>
+        <!-- Symptômes -->
+        <div class="s9-screen">
+          <div class="sc-title">🔍 Vérificateur</div>
+          <div style="background:rgba(255,255,255,0.07);border-radius:5px;padding:8px;font-size:0.6rem;color:rgba(255,255,255,0.5);margin-bottom:10px;line-height:1.5">Décrivez vos symptômes en quelques mots…</div>
+          <div style="background:rgba(0,85,212,0.3);border-radius:5px;padding:6px;font-size:0.6rem;font-weight:700;text-align:center;color:#7fbfff;margin-bottom:10px">Analyser mes symptômes</div>
+          <div style="background:rgba(0,199,106,0.1);border:1px solid rgba(0,199,106,0.3);border-radius:5px;padding:10px;font-size:0.6rem;color:rgba(255,255,255,0.7);line-height:1.6">
+            <strong style="color:var(--green)">Possible infection respiratoire.</strong> Reposez-vous et hydratez-vous. Consultez si cela dure.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 10 – INTERFACE IMC & RDV -->
+  <div class="slide" id="s10">
+    <div class="slide-base">
+      <div class="eyebrow">Interface</div>
+      <div class="slide-title">INTERFACE DE site :</div>
+      <div class="s10-screens">
+        <!-- IMC -->
+        <div class="s10-screen">
+          <div class="sc-title">📊 Calculateur IMC</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">Taille (cm) — 175</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">Poids (kg) — 70</div>
+          </div>
+          <div style="background:rgba(0,85,212,0.4);border-radius:5px;padding:6px;font-size:0.6rem;font-weight:700;text-align:center;color:#fff;margin-bottom:12px">Calculer mon IMC</div>
+          <div style="background:rgba(0,199,106,0.1);border:1px solid rgba(0,199,106,0.3);border-radius:5px;padding:10px;text-align:center">
+            <div style="font-family:'Sora',sans-serif;font-size:1.4rem;font-weight:800;color:var(--green)">22.9</div>
+            <div style="font-size:0.62rem;color:rgba(255,255,255,0.7);margin-top:4px">Normal — Continuez votre mode de vie équilibré.</div>
+          </div>
+        </div>
+        <div style="font-size:1.4rem;color:var(--muted);align-self:center">→</div>
+        <!-- Rendez-vous -->
+        <div class="s10-screen">
+          <div class="sc-title">📅 Rendez-vous</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">Nom complet</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">Email</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">📅 Choisir date & heure</div>
+            <div style="background:rgba(255,255,255,0.07);border-radius:5px;height:24px;display:flex;align-items:center;padding:0 10px;font-size:0.58rem;color:rgba(255,255,255,0.4)">▾ Sélectionner un médecin</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#0033a0,#0055d4);border-radius:5px;padding:8px;font-size:0.62rem;font-weight:800;text-align:center;color:#fff;margin-top:10px">Confirmer le rendez-vous</div>
+          <div style="background:rgba(0,199,106,0.1);border-radius:5px;padding:8px;font-size:0.58rem;color:var(--green);margin-top:8px;font-weight:600;line-height:1.5">
+            ✅ RDV confirmé avec Dr. Alvarez le 05 mai 2026.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 11 – INTERFACE MODE SOMBRE COMPLET -->
+  <div class="slide" id="s11">
+    <div class="slide-base">
+      <div class="eyebrow">Interface</div>
+      <div class="slide-title">INTERFACE DE site :</div>
+      <div class="s11-screens">
+        <!-- Hero sombre -->
+        <div class="s11-screen" style="width:220px">
+          <div class="sc-title">🌙 Mode sombre — Accueil</div>
+          <div style="background:linear-gradient(135deg,rgba(0,85,212,0.2),rgba(0,199,106,0.1));border-radius:6px;padding:14px;margin-bottom:10px">
+            <div style="font-family:'Sora',sans-serif;font-size:0.9rem;font-weight:800;color:#fff;margin-bottom:4px">Votre santé,<br>simplifiée.</div>
+            <div style="font-size:0.6rem;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:10px">200+ médecins · Symptômes · IMC</div>
+            <div style="display:flex;gap:6px">
+              <div style="background:#0055d4;border-radius:4px;padding:5px 8px;font-size:0.55rem;font-weight:700;color:#fff">Prendre RDV</div>
+              <div style="background:rgba(0,199,106,0.3);border-radius:4px;padding:5px 8px;font-size:0.55rem;font-weight:700;color:#4ade80">Symptômes</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+            <div style="text-align:center;background:rgba(255,255,255,0.05);border-radius:5px;padding:8px 4px">
+              <div style="font-family:'Sora',sans-serif;font-size:0.9rem;font-weight:800;color:#0055d4">200+</div>
+              <div style="font-size:0.48rem;color:rgba(255,255,255,0.4)">Médecins</div>
+            </div>
+            <div style="text-align:center;background:rgba(255,255,255,0.05);border-radius:5px;padding:8px 4px">
+              <div style="font-family:'Sora',sans-serif;font-size:0.9rem;font-weight:800;color:#00c76a">98%</div>
+              <div style="font-size:0.48rem;color:rgba(255,255,255,0.4)">Satisfaits</div>
+            </div>
+            <div style="text-align:center;background:rgba(255,255,255,0.05);border-radius:5px;padding:8px 4px">
+              <div style="font-family:'Sora',sans-serif;font-size:0.9rem;font-weight:800;color:#0055d4">24/7</div>
+              <div style="font-size:0.48rem;color:rgba(255,255,255,0.4)">Disponible</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:1.4rem;color:var(--muted);align-self:center">→</div>
+        <!-- Témoignages -->
+        <div class="s11-screen" style="width:220px">
+          <div class="sc-title">💬 Témoignages</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;font-size:0.6rem;color:rgba(255,255,255,0.7);line-height:1.5;border-left:2px solid #0055d4">
+              <strong style="color:#fff">Ana M.</strong> — Patiente<br>
+              « La plateforme a simplifié chaque rendez-vous. »
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;font-size:0.6rem;color:rgba(255,255,255,0.7);line-height:1.5;border-left:2px solid var(--green)">
+              <strong style="color:#fff">Luis R.</strong> — Médecin<br>
+              « Interface soignée, patients satisfaits. »
+            </div>
+            <div style="background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;font-size:0.6rem;color:rgba(255,255,255,0.7);line-height:1.5;border-left:2px solid var(--gold)">
+              <strong style="color:#fff">Nora P.</strong> — Coach santé<br>
+              « Le calculateur IMC est excellent. »
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer presenter-line">PRÉSENTÉ PAR · amal abassi </div>
+  </div>
+
+  <!-- SLIDE 12 – MERCI -->
+  <div class="slide" id="s12">
+    <div style="height:90px;background:var(--cream)"></div>
+    <div class="s12-inner">
+      <div class="s12-title">MERCI POUR VOTRE<br>ATTENTION !</div>
+      <div class="s12-sub">Une plateforme de santé numérique pensée pour simplifier votre accès aux soins.</div>
+      <div class="s12-logo">BIO<span>HEALTH</span></div>
+      <div style="margin-top:16px;font-size:0.72rem;color:var(--muted);font-weight:600;letter-spacing:0.1em;text-transform:uppercase">
+        amal abassi 
+      </div>
+    </div>
+    <div style="height:90px;background:var(--cream2);border-top:2px solid rgba(0,0,0,0.06)"></div>
+  </div>
+
+</div><!-- /slideshow -->
+
+<!-- THUMBNAIL STRIP -->
+<div class="thumb-strip" id="thumbStrip"></div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="ctrl-btn" onclick="changeSlide(-1)">← Précédent</button>
+  <span class="slide-counter" id="counter">1 / 12</span>
+  <button class="ctrl-btn" onclick="changeSlide(1)">Suivant →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const N = slides.length;
+let cur = 0;
+
+const labels = [
+  'BIOHEALTH','Introduction','Problématique','Fonctionnalités',
+  'Parcours','Technologies','Conception','Interface I',
+  'Interface II','Interface III','Interface IV','Merci'
+];
+
+// Build thumbnails
+const strip = document.getElementById('thumbStrip');
+slides.forEach((s,i)=>{
+  const t = document.createElement('div');
+  t.className='thumb'+(i===0?' active-thumb':'');
+  t.innerHTML=`<span>${labels[i]}</span><span class="thumb-num">${i+1}</span>`;
+  t.style.background = i===0?'#f5f0e8':'#3a342a';
+  t.style.color = i===0?'#7a6e5e':'#a89880';
+  t.onclick=()=>goTo(i);
+  strip.appendChild(t);
+});
+
+function goTo(n){
+  slides[cur].classList.remove('active');
+  document.querySelectorAll('.thumb')[cur].classList.remove('active-thumb');
+  document.querySelectorAll('.thumb')[cur].style.background='#3a342a';
+  document.querySelectorAll('.thumb')[cur].style.color='#a89880';
+  cur=n;
+  slides[cur].classList.add('active');
+  const thumb=document.querySelectorAll('.thumb')[cur];
+  thumb.classList.add('active-thumb');
+  thumb.style.background='#f5f0e8';
+  thumb.style.color='#7a6e5e';
+  thumb.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  document.getElementById('counter').textContent=`${cur+1} / ${N}`;
+  document.getElementById('progressBar').style.width=`${((cur+1)/N)*100}%`;
+}
+function changeSlide(d){goTo(Math.max(0,Math.min(N-1,cur+d)))}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')changeSlide(1);
+  if(e.key==='ArrowLeft')changeSlide(-1);
+});
+goTo(0);
+</script>
+</body>
+</html>
